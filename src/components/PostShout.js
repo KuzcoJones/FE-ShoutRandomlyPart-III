@@ -26,9 +26,18 @@ class PostShout extends Component{
         this.state = {
             open: false,
             body: '',
-            error: ""
+            error: "",
+            shouts: []
         }
     }
+
+    componentDidMount(){
+        this.setState({
+            shouts: this.props.shouts
+        })
+    }
+
+
 
     handleOpen = () => {
         this.setState({open: true})
@@ -57,13 +66,14 @@ class PostShout extends Component{
         fetch(`http://localhost:3000/shouts`, postObj)
         .then(resp => resp.json())
         .then(data => 
-            console.log(data)
-             
+            {  
+                this.setState({shouts: data})
+                this.props.setShouts(data)
+                }             
         )
         .catch(error => {
             throw(error);
         })
-
         this.handleClose()
         }
         else{
@@ -72,10 +82,11 @@ class PostShout extends Component{
             return false;
 
         }
+        
     }
 
     render(){
-        console.log(this.state)
+        // console.log("PostShout props", this.props)
         const { classes } = this.props
         return(
             <Fragment>

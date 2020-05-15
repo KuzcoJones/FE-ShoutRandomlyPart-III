@@ -39,6 +39,9 @@ const styles = {
 }
 
 
+// When updating the shouts or comments after the delete function update the app state.
+// Fix issue while rerendering to get props from app must go home then to myShouts
+
 
 class MyShouts extends React.Component{
 
@@ -48,9 +51,7 @@ class MyShouts extends React.Component{
             shouts: [],
             comments: [],
             rendered: false,
-            comment: {
-                commentBody: "", commentId: null
-            },
+            comment: { commentBody: "", commentId: null },
             open: false,
             setOpen: false,
             shout: {shoutBody: "", shoutId: null},
@@ -148,31 +149,79 @@ class MyShouts extends React.Component{
     }
 
     componentDidMount(){
-        const token = localStorage.getItem('token')
+        
+            const token = localStorage.getItem('token')
             const reqObj = {
                 method: 'GET',
                 headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
             }
-
+            
             fetch('http://localhost:3000/myuser', reqObj)
             .then(resp => resp.json())
             .then(data => {
-                // console.log(data)
+                
                 this.setState({
                     shouts: data.shouts, comments: data.comments, rendered: true
                     })
                 }    
             )
+                    
+        
+        
+        
+       
     }
 
-    renderShouts = () => {
-        console.log(this.state)
+    //   componentDidUpdate(prevProps) {
+    //     // Typical usage (don't forget to compare props):
+    //     if (this.props.shouts !== this.shouts) {
+    //         const token = localStorage.getItem('token')
+    //         const reqObj = {
+    //             method: 'GET',
+    //             headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
+    //         }
+
+    //         fetch('http://localhost:3000/myuser', reqObj)
+    //         .then(resp => resp.json())
+    //         .then(data => {
+               
+    //             this.setState({
+    //                 shouts: data.shouts, comments: data.comments, rendered: true
+    //                 })
+    //             }    
+    //         )
+    //     }
+    //   }
+
+
+
+    // static getDerivedStateFromProps(nextProps, prevState){
+    //        return {
+    //            shouts: nextProps.shouts, rendered: true
+    //        }
+    // }
+
+    
+    // shouldComponentUpdate(nextProps, prevState) {
+    //    if (nextProps === this.props ){
+    //        return false
+    //     }
+    //    else {
+    //        return true
+    //    }
+    //   }
+
+    
+
+  
+
+    renderShouts = () => {  
         const { classes } = this.props 
         const { shouts } = this.state           
         dayjs.extend(relativeTime)
         
 
-        return shouts.map( shout => 
+       if(this.state.shouts.length !== 0 ) {return shouts.map( shout => 
         <Card className={classes.card}> 
             <CardContent className={classes.content}> 
                         
@@ -206,30 +255,34 @@ class MyShouts extends React.Component{
                         </IconButton>
                 </CardContent>
         </Card>
-        )
+        )}
+        else {
+            return(
+                <p>Make some shouts</p>
+            )
+        }
     }
 
     renderComments = () => {
-        console.log(this.state)
         const { classes } = this.props 
         const { shouts } = this.state           
         dayjs.extend(relativeTime)
 
-       return this.state.comments.map( comment => 
+    if (this.props.comments.length > 0 ){  return this.state.comments.map( comment => 
         <Card className={classes.card}> 
         <CardContent className={classes.content}> 
                     
 
-                 <Typography variant="h5">
+                    <Typography variant="h5">
                         {comment.body}
                 </Typography> 
 
                     <Typography variant="body2" color="textSecondary">
-                         Created {dayjs(comment.created_at).fromNow()}
+                            Created {dayjs(comment.created_at).fromNow()}
                     </Typography>
 
                     <Typography variant="body2" color="textSecondary">
-                         Last Updated {dayjs(comment.updated_at).fromNow()}
+                            Last Updated {dayjs(comment.updated_at).fromNow()}
                     </Typography>
 
                     <IconButton aria-label="like" className={classes.button}>
@@ -241,19 +294,22 @@ class MyShouts extends React.Component{
                     </IconButton>
             </CardContent>
     </Card>
-        )
+        )}
     }
 
 
     render(){
-        console.log("MyShouts state", this.state)
+        console.log( 'Myshouts shouts props', this.props)
+        console.log( 'Myshouts shouts state', this.state.shouts)
         return(
             <Grid container spacing={6}>
-
+                
                <Grid item sm={8} xs={12}>
                    {this.state.rendered === true ? this.renderShouts() : <p>Loading...</p>}
                </Grid>
 
+
+               
                <Grid item sm={4} xs={12}>
                {this.state.rendered === true ? this.renderComments() : <p>Loading...</p>}
                </Grid>

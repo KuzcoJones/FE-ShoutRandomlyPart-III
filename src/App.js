@@ -32,7 +32,14 @@ class App extends React.Component{
     super()
 
     this.state = {
-      userInfo: {},
+      login: false,
+      userInfo: {
+        shouts: [],
+        comments: [],
+        username: "",
+        bio: ''
+      },
+      
       followed_shouts: [],
       followed_users: [],
     }
@@ -40,33 +47,55 @@ class App extends React.Component{
 
 
   componentDidMount(){
-    
+        
       }
-      
-          render(){
-            
-            console.log("App state",this.state)
-    return (
-      <div className="App">
-       <MuiThemeProvider theme={theme}>
 
-      <Router>
-        <NavBar />
-        <div className= "container">
-          <Switch>
-              <Route exact path={ local} render={ (props) => <Home userInfo={this.state} {...props} />}/>
-              <Route exact path= "/myShouts" render={ (props) => <MyShouts userInfo={this.state} {...props}/> } />
-  
-              <Route exact path='/signup' component={Signup}/>
-  
-              <Route exact path='/login' component={Login}/>
-          </Switch>
-        </div>
-      </Router>
-       </MuiThemeProvider>
-      </div>
-    );
-  }
-}
+      login = () => {
+        this.setState({
+          login: true
+        })
+      }
+
+      logout = () => {
+        this.setState({
+          login: false
+        })
+      }
+
+      setShouts = (shouts) => {
+        this.setState({
+          ...this.state.userInfo, shouts: shouts
+        })
+
+        console.log("App state from setShouts ", this.state.shouts)
+      }
+
+      setUserInfo = (userInfo) => {
+        this.setState({
+          userInfo : userInfo
+        })
+      }
+
+      
+        render(){           
+          return (
+            <div className="App">
+              <MuiThemeProvider theme={theme}>
+                <Router>
+                  { this.state.login || localStorage.getItem('token') ? <NavBar logout={this.logout} setUserInfo={this.setUserInfo}  setShouts = {this.setShouts}/> : null}
+                  <div className= "container">
+                    <Switch>
+                      <Route exact path= '/home' render={ (props) => <Home userInfo={this.state} login = {this.login} {...props} />}/>
+                      <Route exact path= "/myShouts" render={ (props) => <MyShouts shouts={this.state.userInfo.shouts} comments={this.state.userInfo.comments} {...props}/> } />
+                      <Route exact path='/signup'  component={Signup}/>
+                      <Route exact path='/' login = {this.login} component={Login}/>
+                    </Switch>
+                  </div>
+                </Router>
+              </MuiThemeProvider>
+            </div>
+            );
+          }
+        }
 
 export default App;

@@ -75,7 +75,6 @@ class PostComment extends Component{
     }
 
     render(){
-        console.log("PostComment props", this.props)
         const { classes } = this.props
         return(
             <Fragment>

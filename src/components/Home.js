@@ -1,7 +1,18 @@
 import React from 'react'
 import Shout from './Shout'
 import Profile from './Profile'
+import withStyles from '@material-ui/core/styles/withStyles';
+
 import Grid  from '@material-ui/core/Grid';
+import FindFollow from './Findfollow'
+import ShoutFeed from './ShoutFeed'
+
+
+const styles = {
+    container: { overflow: 'scroll', width:'20vw', height: '50vh', border: 'solid 1px', margin: '130px, 190px, 90px'},
+
+}
+
 
 class Home extends React.Component{
     constructor(){
@@ -12,49 +23,36 @@ class Home extends React.Component{
         }
     }
 
-        componentDidMount(){
-            const token = localStorage.getItem('token')
-            const reqObj = {
-                method: 'GET',
-                headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
-            }
 
-            fetch('http://localhost:3000/shouts', reqObj)
-            .then(resp => resp.json())
-            .then(data => {
-                this.setState({
-                    shouts: data, renderState: true
-                    })
-                }    
-            )
-        }
 
-    // add fetch to shouts index and set to state
-    // add render shouts function
-    // add conditional to check if screams are null or not
-    // map through shouts or show loading. 
-    // create a shout component with props of fetch data map
-    // 
+    
     render(){
-        console.log('home props', this.props)
+      const { classes } = this.props
 
-        let renderShouts = () => {
-            // check if there are shouts to render. 
-            return this.state.shouts.map( shout =>  <Shout shout={shout}/>)
-        }   
+       
 
         return(
            <Grid container spacing={16}>
-                <Grid item sm={8} xs={12}>
-                    {this.state.renderState === true ? renderShouts() : <p>Loading...</p>}
+                <Grid item sm={8} xs={12} className={classes.container}>
+                    {/* {this.state.renderState === true ? renderShouts() : <p>Loading...</p>} */}
+                    <ShoutFeed login = {this.props.login} />
                 </Grid>
+
+                
+
+
 
                 <Grid item sm={4} xs={12}>
                     <Profile/>
                 </Grid>
+
+                <Grid item sm={4} xs={12}>
+                    <FindFollow/>
+                </Grid>
+
            </Grid>
         )
     }
 }
 
-export default Home
+export default withStyles(styles)(Home); 

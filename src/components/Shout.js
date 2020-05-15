@@ -10,21 +10,54 @@ import IconButton from '@material-ui/core/IconButton'
 import { ThumbUp, ThumbDown, Comment } from '@material-ui/icons'
 
 import Typography  from '@material-ui/core/Typography';
+import Grid  from '@material-ui/core/Grid';
+
 
 const styles = {
+    container: {
+        minWidth: 500
+    },
+    cardContainer: {
+        minWidth:500
+    },
     card: {
         display: 'flex',
+        height: '20vh' ,
         marginBottom: 20,
-        marginRight: 20
+        marginRight: 20,
+        marginLeft: 35,
+        minWidth: 300
+
     },
     image: {
-        minWidth: 200,
-        width: 400
+        minWidth: 100,
+        width: 100
     },
     content: {
-        padding: 25,
+        padding: 40,
+        position: 'relative',
+        left: '5vw',
         objectFit: 'cover'
+    },
+    button: {
+        position: 'relative',
+
+    },
+    buttonBar: {
+        position: 'relative',
+        bottom: '6vh',
+        right: '4vw'
+    },
+    shoutInfo: {
+        position: 'relative',
+        left: '5vw',
+        bottom: '5vh'
+    },
+    userInfo: {
+        position: 'relative',
+        right: '10vw'
     }
+
 }
 
 class Shout extends React.Component{
@@ -96,52 +129,56 @@ class Shout extends React.Component{
 
     renderShout = () => {
         dayjs.extend(relativeTime)
-        console.log("Shout state", this.state)
         const { classes } = this.props 
         const { shout } = this.state
         
         const { id } = this.state.shout 
 
         return (
-            <div>
+            <div className = {classes.cardContainer}>
                 <Card className={classes.card}>
                     <CardMedia className = {classes.image}
                     image={shout.user.imgUrl} title='Profile Image'/>
 
                     <CardContent className={classes.content}>
-                        <Typography variant="h5">
+                        <Typography variant="subtitle1">
                             {shout.body}
                         </Typography>
 
+                    <div className={classes.userInfo}>
                         <Typography variant="body2" color="textSecondary">
                              {dayjs(shout.created_at).fromNow()}
                         </Typography>
-
                         <Typography variant="body1" color="textSecondary">
                             @{shout.user.username}
                         </Typography>
+                    </div>
 
-                         <Typography variant="body2" color="textSecondary">
-                            {shout.likeCount} likes
-                        </Typography>
+                        <div className={classes.shoutInfo}>
+                            <Typography variant="body2" color="textSecondary">
+                                {shout.likeCount} likes
+                            </Typography>
 
-                         <Typography variant="body2" color="textSecondary">
-                            {shout.commentCount} comments
-                        </Typography>
+                            <Typography variant="body2" color="textSecondary">
+                                {shout.commentCount} comments
+                            </Typography>
+                        </div>
 
                        
-
-                        <IconButton aria-label="like">
+                    <Grid className = {classes.buttonBar}>
+                        <IconButton className={classes.button} aria-label="like">
                             <ThumbUp onClick={() => this.likeShout(id)} />
                         </IconButton>
 
                         <IconButton aria-label="dislike">
                             <ThumbDown  onClick={() => this.dislikeShout(id)} />
                         </IconButton>
-
-                    <Fragment>
-                        <PostComment shoutId={shout.id}/>
-                    </Fragment>
+                    
+                    
+                        <Fragment>
+                            <PostComment shoutId={shout.id}/>
+                        </Fragment>
+                    </Grid>
 
                         
                     
@@ -152,9 +189,9 @@ class Shout extends React.Component{
     }
 
     render(){
-        
+        const { classes } = this.props
         return(
-            <div>
+            <div className={classes.container}>
                 {/* this.state.renderState === 'done' ? this.renderUserInfo() : this.loadingMessage() */}
                 {this.state.rendered === true ? this.renderShout() : this.loadingMessage()}
             </div>

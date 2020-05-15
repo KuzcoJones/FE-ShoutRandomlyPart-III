@@ -11,6 +11,10 @@ class Login extends React.Component{
         }
     }
 
+    componentDidMount(){
+        
+    }
+
     handleInputChange = (event) => {
         this.setState({
            [event.target.name]: event.target.value
@@ -41,10 +45,8 @@ class Login extends React.Component{
     goSignUp = () => {
         this.props.history.push('/signup')
     }
-    
 
-    render(){
-        
+    renderLogin = () => {
         return(
             <div>
                 <div>
@@ -71,6 +73,20 @@ class Login extends React.Component{
                 </div>
             </div>
         )
+    }
+
+    goHome = () => {
+        this.props.history.push('/home')
+        return null
+    }
+    
+
+    render(){
+         
+        return(
+            localStorage.getItem('token') ? this.goHome() : this.renderLogin()
+        )
+       
     }
 }
 

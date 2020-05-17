@@ -2,14 +2,16 @@ import React from 'react'
 import NavBar from './NavBar'
 import Findfollow from './Findfollow'
 import Shout from './Shout'
+import FollowList from './FollowList'
 import Card from '@material-ui/core/Card';
+import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent'
 import Typography  from '@material-ui/core/Typography';
 import Grid  from '@material-ui/core/Grid';
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import IconButton from '@material-ui/core/IconButton'
-import { Delete, Edit } from '@material-ui/icons'
+import { Delete, Edit, RemoveCircle } from '@material-ui/icons'
 import withStyles from '@material-ui/core/styles/withStyles'
 
 import TextField from '@material-ui/core/TextField';
@@ -21,6 +23,34 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button'
 
 const styles = {
+    shouts: {
+        position: 'relative', 
+        right: '5vw',
+        top: '20vh'
+
+    },
+    commentsContainer: {
+        position: 'relative',
+        left: '1vw',
+        top: '12vh'
+    },
+    followed: {
+        position: 'relative',
+        bottom: '70vh',
+        right: '7vw',
+    },
+    followedTitle: {
+
+    },
+    shoutcard: {
+        width: '30vw',
+        marginTop: 20,
+        marginBottom: 20,
+        position: 'relative',
+        top: 50,
+        left: 300
+
+    },
     card: {
         // display: 'flex',
         marginTop: 20,
@@ -35,6 +65,53 @@ const styles = {
     },
     button: {
         // float: 'right',
+    },
+    usercard: {
+        position: 'relative',
+        top: 200,
+        left: 70,
+        height: '20vh',
+        width: '30vw',
+        marginBottom: 20
+    },
+    media: {
+        position: 'relative',
+        right: '7vw',
+        height: '30vh',
+        objectFit: 'contain'
+    },
+    usercontent: {
+        position: 'relative',
+        left: '7vw',
+        bottom: '2vh'
+    },
+    unfollowbutton: {
+
+    },
+    imgContainer: {
+        height: '5vh',
+        width: '20vw',
+        position: 'relative',
+        left: '2vw',
+        bottom: '4vh'
+    },
+    followedTitle: {
+        position: 'relative',
+        bottom: '117vh'
+    },
+    shoutTitle: {
+        position: 'relative',
+        top: '21vh',
+        left: '33vw',
+        marginBottom: 20
+    },
+    commentTitle: {
+        position: 'relative',
+        top: '3vh'
+    },
+    shoutsContainer: {
+        position: 'relative',
+        left: '12vw'
     }
 }
 
@@ -55,7 +132,8 @@ class MyShouts extends React.Component{
             open: false,
             setOpen: false,
             shout: {shoutBody: "", shoutId: null},
-            dialogType: ""
+            dialogType: "",
+            followed_users: []
         }
     }
 
@@ -137,6 +215,23 @@ class MyShouts extends React.Component{
 
     }
 
+    unfollow = (id) => {
+        const token = localStorage.getItem('token')
+        const unFollowObj = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
+            body: JSON.stringify({followedUserId: id})
+        }
+
+        
+        fetch('http://localhost:3000/unfollow', unFollowObj)
+        .then(resp => resp.json())
+        .then( data => {this.setState({
+            shouts: data.shouts, comments: data.comments, followed_users: data.followed_users, rendered: true
+            })})
+
+    }
+
 
     
 
@@ -147,6 +242,8 @@ class MyShouts extends React.Component{
         this.setState({ ...this.state, shout: {...this.state.shout, shoutBody: e.target.value}}) : this.setState({ ...this.state, comment: {...this.state.comment, commentBody: e.target.value}})
         }
     }
+
+    
 
     componentDidMount(){
         
@@ -159,57 +256,19 @@ class MyShouts extends React.Component{
             fetch('http://localhost:3000/myuser', reqObj)
             .then(resp => resp.json())
             .then(data => {
-                
+              
                 this.setState({
-                    shouts: data.shouts, comments: data.comments, rendered: true
+                    shouts: data.shouts, comments: data.comments, followed_users: data.followed_users, rendered: true
                     })
                 }    
             )
-                    
-        
-        
-        
-       
     }
 
-    //   componentDidUpdate(prevProps) {
-    //     // Typical usage (don't forget to compare props):
-    //     if (this.props.shouts !== this.shouts) {
-    //         const token = localStorage.getItem('token')
-    //         const reqObj = {
-    //             method: 'GET',
-    //             headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}
-    //         }
-
-    //         fetch('http://localhost:3000/myuser', reqObj)
-    //         .then(resp => resp.json())
-    //         .then(data => {
-               
-    //             this.setState({
-    //                 shouts: data.shouts, comments: data.comments, rendered: true
-    //                 })
-    //             }    
-    //         )
-    //     }
-    //   }
 
 
 
-    // static getDerivedStateFromProps(nextProps, prevState){
-    //        return {
-    //            shouts: nextProps.shouts, rendered: true
-    //        }
-    // }
 
-    
-    // shouldComponentUpdate(nextProps, prevState) {
-    //    if (nextProps === this.props ){
-    //        return false
-    //     }
-    //    else {
-    //        return true
-    //    }
-    //   }
+   
 
     
 
@@ -221,40 +280,39 @@ class MyShouts extends React.Component{
         dayjs.extend(relativeTime)
         
 
-       if(this.state.shouts.length !== 0 ) {return shouts.map( shout => 
-        <Card className={classes.card}> 
-            <CardContent className={classes.content}> 
-                        
+       if(this.state.shouts.length !== 0 ) {
+           return shouts.map( shout => 
+                <Card className={classes.shoutcard}> 
+                    <CardContent className={classes.content}> 
+                            <Typography variant="h5">
+                                    {shout.body}
+                            </Typography> 
 
-                     <Typography variant="h5">
-                            {shout.body}
-                    </Typography> 
+                            <Typography variant="body2" color="textSecondary">
+                                    {shout.likeCount} likes
+                                </Typography>
 
-                     <Typography variant="body2" color="textSecondary">
-                            {shout.likeCount} likes
-                        </Typography>
+                                <Typography variant="body2" color="textSecondary">
+                                    {shout.commentCount} comments
+                                </Typography>
+                            
+                                <Typography variant="body2" color="textSecondary">
+                                    Created {dayjs(shout.created_at).fromNow()}
+                                </Typography>
 
-                        <Typography variant="body2" color="textSecondary">
-                            {shout.commentCount} comments
-                        </Typography>
-                    
-                        <Typography variant="body2" color="textSecondary">
-                             Created {dayjs(shout.created_at).fromNow()}
-                        </Typography>
+                                <Typography variant="body2" color="textSecondary">
+                                    Last Updated {dayjs(shout.updated_at).fromNow()}
+                                </Typography>
 
-                        <Typography variant="body2" color="textSecondary">
-                             Last Updated {dayjs(shout.updated_at).fromNow()}
-                        </Typography>
+                                <IconButton aria-label="like" className={classes.button}>
+                                    <Delete onClick={() => this.deleteShout(shout.id)} />
+                                </IconButton>
 
-                        <IconButton aria-label="like" className={classes.button}>
-                            <Delete onClick={() => this.deleteShout(shout.id)} />
-                        </IconButton>
-
-                        <IconButton aria-label="like" className={classes.button}>
-                            <Edit onClick={() => this.editShout(shout.id)} />
-                        </IconButton>
-                </CardContent>
-        </Card>
+                                <IconButton aria-label="like" className={classes.button}>
+                                    <Edit onClick={() => this.editShout(shout.id)} />
+                                </IconButton>
+                        </CardContent>
+                </Card>
         )}
         else {
             return(
@@ -268,7 +326,7 @@ class MyShouts extends React.Component{
         const { shouts } = this.state           
         dayjs.extend(relativeTime)
 
-    if (this.props.comments.length > 0 ){  return this.state.comments.map( comment => 
+    if (this.state.comments.length > 0 ){  return this.state.comments.map( comment => 
         <Card className={classes.card}> 
         <CardContent className={classes.content}> 
                     
@@ -292,26 +350,102 @@ class MyShouts extends React.Component{
                     <IconButton aria-label="like" className={classes.button}>
                         <Edit onClick={() => this.editComment(comment.id)} />
                     </IconButton>
+
             </CardContent>
     </Card>
         )}
+        else {
+            return(
+                <Card className={classes.commentcard}>
+                     <Typography variant="h6" color="textSecondary" className={classes.username}>
+                                Follow your first user
+                    </Typography>
+                </Card>
+            )
+        }
+    }
+
+    renderFollowed = () => {
+        const { classes } = this.props 
+        const { followed_users } = this.state    
+        dayjs.extend(relativeTime)
+        if (this.state.followed_users.length > 0 ){
+
+            return this.state.followed_users.map(
+                user =>
+                        <Card className={classes.usercard}> 
+                            <div className={classes.imgContainer}>
+                                <CardMedia className={classes.media}
+                                        component="img"
+                                        height= '100'
+                                        src={user.imgUrl}
+                                        title="User's profile images" 
+                                         />
+                            </div>
+                            <CardContent className={classes.usercontent}> 
+    
+                                 <Typography variant="h6" color="textSecondary" className={classes.username}>
+                                    {user.username}
+                                </Typography>
+    
+                                <Typography variant="body2" color="textSecondary" className={classes.userbio}>
+                                    {user.bio}
+                                </Typography>
+    
+                                <IconButton aria-label="like" className={classes.unfollowbutton} onClick={() => this.unfollow(user.id)}>
+                                    <RemoveCircle  />
+                                </IconButton>
+    
+                            </CardContent>
+    
+    
+                        </Card>
+            )
+        }
+        else {
+            return(
+                <Card className={classes.usercard}>
+                     <Typography variant="h6" color="textSecondary" className={classes.username}>
+                                Follow your first user
+                    </Typography>
+                </Card>
+            )
+        }
     }
 
 
     render(){
-        console.log( 'Myshouts shouts props', this.props)
-        console.log( 'Myshouts shouts state', this.state.shouts)
+        const  {classes} = this.props
+
+        console.log( 'Myshouts shouts state', this.state)
         return(
             <Grid container spacing={6}>
                 
-               <Grid item sm={8} xs={12}>
-                   {this.state.rendered === true ? this.renderShouts() : <p>Loading...</p>}
+               <Grid container sm={8} xs={12} className={classes.shoutsContainer}>
+                    <Typography variant="h4" color="textSecondary" className={classes.shoutTitle}>
+                            Shouts 
+                    </Typography>
+
+                    <Grid className={classes.shouts}>
+                        {this.state.rendered === true ? this.renderShouts() : <p>Loading...</p>}
+                    </Grid>
                </Grid>
 
 
                
-               <Grid item sm={4} xs={12}>
-               {this.state.rendered === true ? this.renderComments() : <p>Loading...</p>}
+               <Grid item sm={4} xs={12} spacing={10} className={classes.commentsContainer}>
+                    <Typography variant="h4" color="textSecondary" className={classes.commentTitle}>
+                            Comments 
+                    </Typography>
+                {this.state.rendered === true ? this.renderComments() : <p>Loading...</p>}
+               </Grid>
+
+               <Grid item className={classes.followed} >
+                    <Typography variant="h4" color="textSecondary" className={classes.followedTitle}>
+                            Following
+                    </Typography>
+
+                    {this.state.rendered === true ? this.renderFollowed() : <p>Loading...</p>}
                </Grid>
 
                 <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">

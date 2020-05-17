@@ -17,7 +17,7 @@ const styles = theme => ({
         width: '100%',
        backgroundColor: '#b71c1c',
     },
-    user:{border: 'solid 4px', marginLeft: 50},
+    user:{border: 'solid 4px', margin: '10', padding: '10'},
     container: {overflow: 'scroll', height: '35vh', border: 'solid 1px', position: 'relative', left: '200%'},
     profile: {
         '& .image-wrapper': {
@@ -94,8 +94,8 @@ class Findfollow extends React.Component{
 
         return this.state.non_followers.map( user => 
 
-            <Grid item container direction='row' xs='10' className={classes.user}>  
-                <Grid item className={classes.profile} xs='8'>   
+            <Grid item container direction='row' xs='10' className={classes.user} >  
+                <Grid item className={classes.profile} xs='8' >   
                     <div className='image-wrapper'>
                         <img className='profile-image' src={user.imgUrl} alt=""/>
                     </div>
@@ -142,10 +142,7 @@ class Findfollow extends React.Component{
         console.log("FindFollow state", this.state)
         return(
             <div>
-                <Grid container direction='row' justify="space-evenly" className={classes.container} maxWidth="xs" xs='8' spacing={3} height="200px">
-                   <div className = {classes.title}>    
-                        Follow Users
-                    </div> 
+                <Grid container direction='row' justify="space-evenly" className={classes.container} maxWidth="xs" xs='8' spacing={16} height="200px">
                         {this.state.rendered === true ? this.renderUsers(): <p>...Loading</p>}
                 </Grid>
             </div>

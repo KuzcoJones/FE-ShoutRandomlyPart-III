@@ -7,7 +7,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import IconButton from '@material-ui/core/IconButton'
-import { ThumbUp, ThumbDown, Comment } from '@material-ui/icons'
+import { ThumbUp, ThumbDown, Comment, RemoveCircle } from '@material-ui/icons'
 
 import Typography  from '@material-ui/core/Typography';
 import Grid  from '@material-ui/core/Grid';
@@ -46,16 +46,17 @@ const styles = {
     buttonBar: {
         position: 'relative',
         bottom: '6vh',
-        right: '4vw'
+        left: '20vw'
     },
     shoutInfo: {
         position: 'relative',
         left: '5vw',
-        bottom: '5vh'
+        bottom: '0vh'
     },
     userInfo: {
         position: 'relative',
-        right: '10vw'
+        right: '8vw',
+        top: '6vh'
     }
 
 }
@@ -135,13 +136,13 @@ class Shout extends React.Component{
         const { id } = this.state.shout 
 
         return (
-            <div className = {classes.cardContainer}>
+            
                 <Card className={classes.card}>
                     <CardMedia className = {classes.image}
                     image={shout.user.imgUrl} title='Profile Image'/>
 
-                    <CardContent className={classes.content}>
-                        <Typography variant="subtitle1">
+                    <CardContent className={classes.content} >
+                        <Typography variant="subtitle1" fontWeight="fontWeightBold">
                             {shout.body}
                         </Typography>
 
@@ -170,7 +171,7 @@ class Shout extends React.Component{
                             <ThumbUp onClick={() => this.likeShout(id)} />
                         </IconButton>
 
-                        <IconButton aria-label="dislike">
+                        <IconButton aria-label="dislike" >
                             <ThumbDown  onClick={() => this.dislikeShout(id)} />
                         </IconButton>
                     
@@ -184,7 +185,7 @@ class Shout extends React.Component{
                     
                     </CardContent>
                 </Card>  
-            </div>
+            
         )
     }
 
@@ -192,6 +193,7 @@ class Shout extends React.Component{
         const { classes } = this.props
         return(
             <div className={classes.container}>
+               
                 {/* this.state.renderState === 'done' ? this.renderUserInfo() : this.loadingMessage() */}
                 {this.state.rendered === true ? this.renderShout() : this.loadingMessage()}
             </div>

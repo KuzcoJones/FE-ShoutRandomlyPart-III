@@ -12,7 +12,7 @@ const styles = theme => ({
        backgroundColor: '#b71c1c',
     },
     user:{border: 'solid 2px', margin: '20px'},
-    container: { overflow: 'scroll', height: '50vh', width: '60vw', border: 'solid 1px', margin: '130px, 190px, 90px'},
+    container: { overflow: 'scroll', height: '50vh', width: '50vw', border: 'double 20px', borderBottom: '2px, solid' , margin: '130px, 190px, 90px', padding: 10},
     profile: {
         '& .image-wrapper': {
             textAlign: 'center', 

@@ -23,56 +23,20 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button'
 
 const styles = {
-    shouts: {
-        position: 'relative', 
-        right: '5vw',
-        top: '20vh'
-
-    },
-    commentsContainer: {
+    container: {
         position: 'relative',
-        left: '1vw',
-        top: '12vh'
-    },
-    followed: {
-        position: 'relative',
-        bottom: '70vh',
-        right: '7vw',
-    },
-    followedTitle: {
-
-    },
-    shoutcard: {
-        width: '30vw',
-        marginTop: 20,
-        marginBottom: 20,
-        position: 'relative',
-        top: 50,
-        left: 300
-
+        top: 100
     },
     card: {
-        // display: 'flex',
         marginTop: 20,
         marginBottom: 20,
         position: 'relative',
         top: 50,
-        // marginRight: 20
+        width: 400
     },
     content: {
         padding: 25,
         objectFit: 'cover'
-    },
-    button: {
-        // float: 'right',
-    },
-    usercard: {
-        position: 'relative',
-        top: 200,
-        left: 70,
-        height: '20vh',
-        width: '30vw',
-        marginBottom: 20
     },
     media: {
         position: 'relative',
@@ -85,9 +49,6 @@ const styles = {
         left: '7vw',
         bottom: '2vh'
     },
-    unfollowbutton: {
-
-    },
     imgContainer: {
         height: '5vh',
         width: '20vw',
@@ -95,24 +56,6 @@ const styles = {
         left: '2vw',
         bottom: '4vh'
     },
-    followedTitle: {
-        position: 'relative',
-        bottom: '117vh'
-    },
-    shoutTitle: {
-        position: 'relative',
-        top: '21vh',
-        left: '33vw',
-        marginBottom: 20
-    },
-    commentTitle: {
-        position: 'relative',
-        top: '3vh'
-    },
-    shoutsContainer: {
-        position: 'relative',
-        left: '12vw'
-    }
 }
 
 
@@ -232,9 +175,6 @@ class MyShouts extends React.Component{
 
     }
 
-
-    
-
     handleForm = (e) => {
         // console.log(e.target.value)
         { 
@@ -280,9 +220,9 @@ class MyShouts extends React.Component{
         dayjs.extend(relativeTime)
         
 
-       if(this.state.shouts.length !== 0 ) {
+       if(this.state.shouts.length > 0 ) {
            return shouts.map( shout => 
-                <Card className={classes.shoutcard}> 
+                <Card className={classes.card}> 
                     <CardContent className={classes.content}> 
                             <Typography variant="h5">
                                     {shout.body}
@@ -316,7 +256,11 @@ class MyShouts extends React.Component{
         )}
         else {
             return(
-                <p>Make some shouts</p>
+                <Card className={classes.card}>
+                <Typography variant="h6" color="textSecondary">
+                    Create your first Shout
+               </Typography>
+           </Card>
             )
         }
     }
@@ -356,9 +300,9 @@ class MyShouts extends React.Component{
         )}
         else {
             return(
-                <Card className={classes.commentcard}>
+                <Card className={classes.card}>
                      <Typography variant="h6" color="textSecondary" className={classes.username}>
-                                Follow your first user
+                                Create your first comment
                     </Typography>
                 </Card>
             )
@@ -373,7 +317,7 @@ class MyShouts extends React.Component{
 
             return this.state.followed_users.map(
                 user =>
-                        <Card className={classes.usercard}> 
+                        <Card className={classes.card}> 
                             <div className={classes.imgContainer}>
                                 <CardMedia className={classes.media}
                                         component="img"
@@ -404,7 +348,7 @@ class MyShouts extends React.Component{
         }
         else {
             return(
-                <Card className={classes.usercard}>
+                <Card className={classes.card}>
                      <Typography variant="h6" color="textSecondary" className={classes.username}>
                                 Follow your first user
                     </Typography>
@@ -417,35 +361,34 @@ class MyShouts extends React.Component{
     render(){
         const  {classes} = this.props
 
-        console.log( 'Myshouts shouts state', this.state)
         return(
-            <Grid container spacing={6}>
+            <Grid container >
                 
-               <Grid container sm={8} xs={12} className={classes.shoutsContainer}>
-                    <Typography variant="h4" color="textSecondary" className={classes.shoutTitle}>
-                            Shouts 
-                    </Typography>
+               <Grid item container direction= "row-reverse" spacing={4} className={classes.container}> 
 
-                    <Grid className={classes.shouts}>
+                    <Grid  item xs={6} sm={4} >
+                        <Typography variant="h4" color="textSecondary" className={classes.shoutTitle}>
+                            Shouts 
+                        </Typography>
                         {this.state.rendered === true ? this.renderShouts() : <p>Loading...</p>}
                     </Grid>
-               </Grid>
 
 
                
-               <Grid item sm={4} xs={12} spacing={10} className={classes.commentsContainer}>
-                    <Typography variant="h4" color="textSecondary" className={classes.commentTitle}>
+                    <Grid item xs={6} sm={4}>
+                        <Typography variant="h4" color="textSecondary" className={classes.commentTitle}>
                             Comments 
-                    </Typography>
-                {this.state.rendered === true ? this.renderComments() : <p>Loading...</p>}
-               </Grid>
+                        </Typography>
+                        {this.state.rendered === true ? this.renderComments() : <p>Loading...</p>}
+                    </Grid>
 
-               <Grid item className={classes.followed} >
-                    <Typography variant="h4" color="textSecondary" className={classes.followedTitle}>
+                    <Grid item xs={6} sm={4}>
+                        <Typography variant="h4" color="textSecondary" className={classes.followedTitle}>
                             Following
-                    </Typography>
+                        </Typography>
+                        {this.state.rendered === true ? this.renderFollowed() : <p>Loading...</p>}
+                    </Grid>
 
-                    {this.state.rendered === true ? this.renderFollowed() : <p>Loading...</p>}
                </Grid>
 
                 <Dialog open={this.state.open} onClose={this.handleClose} aria-labelledby="form-dialog-title">
@@ -471,6 +414,7 @@ class MyShouts extends React.Component{
                     </Button>
                     </DialogActions>
                 </Dialog>
+
             </Grid>
         )
     }

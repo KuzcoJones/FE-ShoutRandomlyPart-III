@@ -8,6 +8,8 @@ import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
 import Add from '@material-ui/icons/AddCircle'
 
+// Send Updated List of Followers to Shoutfeed. 
+// Change data from fetch relationship create to include user.followed_shouts.
 
 const styles = theme => ({
     card: {height: '20vh'},
@@ -132,7 +134,7 @@ class Findfollow extends React.Component{
                 this.setState({
                     ...this.state, non_followers: data
                 })
-           
+
         })
     }
 

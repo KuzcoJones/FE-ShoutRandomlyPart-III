@@ -14,9 +14,6 @@ const styles = {
          width:'100vw', height: '50vh', margin: '130px, 190px, 90px',
         position: 'relative',
         top: '20vh'
-
-
-
     },
     title: {
         position: 'relative',
@@ -32,8 +29,15 @@ class Home extends React.Component{
         super()
         this.state = {
             shouts: null,
-            renderState: false
+            renderState: false,
+            followings: []
         }
+    }
+
+    setFollowings = (followings) => {
+        this.setState({
+            following: followings
+        })
     }
 
 
@@ -46,26 +50,15 @@ class Home extends React.Component{
 
         return(
            <Grid container spacing={16}>
-               {/* <Typography variant='h3' className={classes.title}>
-                    ShoutFeed
-               </Typography> */}
-
                 <Grid item sm={8} xs={12} className={classes.container}>
-                    <ShoutFeed login = {this.props.login} />
+                    <ShoutFeed login={this.props.login} />
                 </Grid>
-
-                
-
-
-
                 <Grid item sm={4} xs={12}>
                     <Profile/>
                 </Grid> 
-
                 <Grid item sm={4} xs={12} container >
-                    <FindFollow/>
+                    <FindFollow setFollowings={this.setFollowings}/>
                 </Grid>
-
            </Grid>
         )
     }

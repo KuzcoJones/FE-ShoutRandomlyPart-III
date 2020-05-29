@@ -2,7 +2,6 @@ import React from 'react'
 import NavBar from './NavBar'
 import Findfollow from './Findfollow'
 import Shout from './Shout'
-import FollowList from './FollowList'
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent'

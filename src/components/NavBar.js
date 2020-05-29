@@ -60,7 +60,7 @@ class NavBar extends React.Component{
            <AppBar>
                <Toolbar className="nav-container">
                    <Button color='inherit' component={Link} to='/home'>Home</Button>
-                   <Button color='inherit' component={Link}to="/myshouts">myShouts</Button>
+                   <Button color='inherit' component={Link} to="/myshouts">myShouts</Button>
                    <Fragment>
                        <PostShout shouts = {this.state.shouts} setShouts= {this.props.setShouts}/>
                     </Fragment>

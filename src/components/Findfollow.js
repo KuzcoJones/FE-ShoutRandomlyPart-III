@@ -70,7 +70,6 @@ class Findfollow extends React.Component{
         super()
         this.state = {
             non_followers: [],
-            filtered: [],
             rendered: false
         }
     }

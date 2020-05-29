@@ -1,10 +1,45 @@
-import React from 'react'
+import React from 'react';
+import withStyles from '@material-ui/core/styles/withStyles';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import Link from '@material-ui/core/Link';
+import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
 
-class Signup extends React.Component{
+
+
+const styles = (theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.primary.light,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+});
+
+ class SignUp extends React.Component {
     constructor(){
         super()
         this.state = {
-
+  
         }
     }
 
@@ -24,7 +59,7 @@ class Signup extends React.Component{
         }
         fetch('http://localhost:3000/signup', signupObj)
         .then( resp => resp.json())
-        .then(data => 
+        .then(data =>
             {if(data.error){alert(data.error)}
                 else{
                     localStorage.setItem('token', data.token)
@@ -33,46 +68,118 @@ class Signup extends React.Component{
             }
         )
     }
-
+ 
+    goLogin = () => {
+        this.props.history.push('/')
+    }
+ 
+    
 
     render(){
-        return(
-            <div>
-                <h1>Signup</h1>
-                <div className='form-container'>
-                    <form onSubmit={(event) => {this.handleForm(event)} } action="" method="post">
-               
+        const { classes } = this.props
 
-                        <label htmlFor="first_name">First name</label>
-                        <input onChange={(event) => {this.handleInputChange(event)}}type="text" name="first_name" id="" placeholder="John"/>
-
-                        <br/>
-                        
-
-                        <label htmlFor="last_name">Last name</label>
-                        <input onChange={(event) => {this.handleInputChange(event)}}type="text" name="last_name" id="" placeholder="Smith"/>
-
-                        <br/>
-                        
-                        <label htmlFor="username">Username </label>
-                        <input onChange={(event) => {this.handleInputChange(event)}} 
-                        type="text" name="username" id=""/>
-
-                                <br/>
-
-                        <label htmlFor="password">Password </label>
-                        <input onChange={(event) => {this.handleInputChange(event)}}type="password" name="password" id=""/>
-
-                                <br/>
-
-                        <label htmlFor="bio">Biography </label>
-                        <textarea onChange= {(event) => this.handleInputChange(event)} name="bio" id="" cols="30" rows="10" maxLength='250'></textarea> <br/>
-                        <input type="submit" value="Signup"/>
-                    </form>
-                </div>
+        return (
+          <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <div className={classes.paper}>
+              <Avatar className={classes.avatar}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                Sign up
+              </Typography>
+              <form onSubmit={(event) => {this.handleForm(event)} } className={classes.form} noValidate>
+                <Grid container spacing={2}>
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                    onChange={(event) => {this.handleInputChange(event)}}
+                      autoComplete="fname"
+                      name="first_name"
+                      variant="outlined"
+                      required
+                      fullWidth
+                      id="first_name"
+                      label="First Name"
+                      autoFocus
+                    />
+                  </Grid>
+                  
+                  <Grid item xs={12} sm={6}>
+                    <TextField
+                    onChange={(event) => {this.handleInputChange(event)}}
+                      variant="outlined"
+                      required
+                      fullWidth
+                      id="last_name"
+                      label="Last Name"
+                      name="lastName"
+                      autoComplete="lname"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField                     
+                      onChange={(event) => {this.handleInputChange(event)}}
+                      variant="outlined"
+                      required
+                      fullWidth
+                      id="username"
+                      label="Username "
+                      name="username"
+                      autoComplete="username"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField
+                      onChange={(event) => {this.handleInputChange(event)}}
+                      variant="outlined"
+                      required
+                      fullWidth
+                      name="password"
+                      label="Password"
+                      type="password"
+                      id="password"
+                      autoComplete="current-password"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                
+                    <TextField
+                    onChange={(event) => {this.handleInputChange(event)}}
+                      autoComplete="fname"
+                      name="bio"
+                      variant="outlined"
+                      required
+                      fullWidth
+                      id="bio"
+                      label="bio"
+                      autoFocus
+                    />
+                  
+                  </Grid>
+                </Grid>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  className={classes.submit}
+                >
+                  Sign Up
+                </Button>
+                <Grid container justify="flex-end">
+                  <Grid item>
+                    <Link onClick={this.goLogin} variant="body2">
+                      Already have an account? Sign in
+                    </Link>
+                  </Grid>
+                </Grid>
+              </form>
             </div>
-        )
+            <Box mt={5}>
+            </Box>
+          </Container>
+        );
     }
 }
 
-export default Signup
+export default withStyles(styles)(SignUp);

@@ -13,6 +13,7 @@ const styles = theme => ({
     submitButton: {
         position: 'relative'
     }, 
+    button: {color: 'white'},
     closeButton: {
         position: 'absolute',
         left: '85%',
@@ -77,9 +78,9 @@ class PostComment extends Component{
     render(){
         const { classes } = this.props
         return(
-            <Fragment>
-                <CommentButton onClick={this.handleOpen} tip="Comment on Shout">
-                    <Comment />
+            <Fragment >
+                <CommentButton className={classes.button} onClick={this.handleOpen} tip="Comment on Shout" color="white">
+                    <Comment className={classes.button}/>
                 </CommentButton>
 
                 <Dialog open={this.state.open} onClose={this.handleClose} fullWidth maxWidth="sm">

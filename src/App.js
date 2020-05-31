@@ -15,11 +15,11 @@ import MyShouts from './components/MyShouts'
 // Theme
 const theme = createMuiTheme({
   palette: {
-    primary: {light: '#4c8c4a', main: '#1b5e20', dark: '#003300', contrastText: "#ffffff"}, 
+    primary: {light: '#D9042B', main: '#D97904', dark: '#012340', contrastText: "#00000f"}, 
     secondary: {
       light: "#f05545",
-      main: "#b71c1c",
-      dark: "#7f0000",
+      main: "#F2D5C4",
+      dark: "#8C031C",
       contrastText: '#ffffff'
     }
   }

@@ -13,14 +13,16 @@ import Typography  from '@material-ui/core/Typography';
 import Grid  from '@material-ui/core/Grid';
 
 
-const styles = {
+const styles = (theme) => ({
     container: {
-        minWidth: 500
+        minWidth: 500,
     },
     cardContainer: {
         minWidth:500
     },
+    text: {color: 'white'},
     card: {
+        backgroundColor: theme.palette.secondary.dark,
         display: 'flex',
         height: '20vh' ,
         marginBottom: 20,
@@ -41,6 +43,7 @@ const styles = {
     },
     button: {
         position: 'relative',
+        color: 'white'
 
     },
     buttonBar: {
@@ -59,7 +62,7 @@ const styles = {
         top: '6vh'
     }
 
-}
+})
 
 class Shout extends React.Component{
 
@@ -142,25 +145,25 @@ class Shout extends React.Component{
                     image={shout.user.imgUrl} title='Profile Image'/>
 
                     <CardContent className={classes.content} >
-                        <Typography variant="subtitle1" fontWeight="fontWeightBold">
+                        <Typography variant="subtitle1" className={classes.text} fontWeight="fontWeightBold">
                             {shout.body}
                         </Typography>
 
                     <div className={classes.userInfo}>
-                        <Typography variant="body2" color="textSecondary">
+                        <Typography variant="body2" className={classes.text}>
                              {dayjs(shout.created_at).fromNow()}
                         </Typography>
-                        <Typography variant="body1" color="textSecondary">
+                        <Typography variant="body1" className={classes.text}>
                             @{shout.user.username}
                         </Typography>
                     </div>
 
                         <div className={classes.shoutInfo}>
-                            <Typography variant="body2" color="textSecondary">
+                            <Typography variant="body2" className={classes.text}>
                                 {shout.likeCount} likes
                             </Typography>
 
-                            <Typography variant="body2" color="textSecondary">
+                            <Typography variant="body2" className={classes.text}>
                                 {shout.commentCount} comments
                             </Typography>
                         </div>
@@ -171,13 +174,13 @@ class Shout extends React.Component{
                             <ThumbUp onClick={() => this.likeShout(id)} />
                         </IconButton>
 
-                        <IconButton aria-label="dislike" >
+                        <IconButton aria-label="dislike" className={classes.button} >
                             <ThumbDown  onClick={() => this.dislikeShout(id)} />
                         </IconButton>
                     
                     
-                        <Fragment>
-                            <PostComment shoutId={shout.id}/>
+                        <Fragment className={classes.text}>
+                            <PostComment className={classes.text} shoutId={shout.id} />
                         </Fragment>
                     </Grid>
 

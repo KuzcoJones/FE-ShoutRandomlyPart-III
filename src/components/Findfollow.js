@@ -12,16 +12,18 @@ import Add from '@material-ui/icons/AddCircle'
 // Change data from fetch relationship create to include user.followed_shouts.
 
 const styles = theme => ({
-    card: {height: '20vh'},
+    card: {height: '20vh', backgroundColor: theme.palette.primary.dark},
     title: {
         border: '1px solid',
         height: '5vh',
         width: '100%',
        backgroundColor: '#b71c1c',
     },
-    user:{border: 'solid 4px', margin: '10', padding: '10'},
-    container: {overflow: 'scroll', height: '35vh', border: 'solid 1px', position: 'relative', left: '200%'},
+    user:{border: 'solid 4px', margin: '40', padding: '40', backgroundColor: theme.palette.primary.dark
+},
+    container: {backgroundColor: theme.palette.secondary.dark, overflow: 'scroll', height: '35vh', border: 'solid 1px', position: 'relative', left: '200%', },
     profile: {
+        color: theme.palette.primary.contrastText,
         '& .image-wrapper': {
             textAlign: 'center', 
             position: 'relative',
@@ -32,6 +34,7 @@ const styles = theme => ({
             }
         },
         '& .profile-image':{
+            backgroundColor: theme.palette.secondary.contrastText,
             width: 50,
             height: 50,
             objectFit: 'center',
@@ -40,6 +43,7 @@ const styles = theme => ({
         },
         '& .profile-details': {
             textAlign: 'center',
+            color: theme.palette.secondary.contrastText,
             '& span, svg': {
                 versionAlign: 'middle'
             },
@@ -58,6 +62,7 @@ const styles = theme => ({
         }
     },
     buttons: {
+        
         textAlign: 'center',
         '& a': {
             margin: '20px, 10px'
@@ -95,7 +100,7 @@ class Findfollow extends React.Component{
 
         return this.state.non_followers.map( user => 
 
-            <Grid item container direction='row' xs='10' className={classes.user} >  
+            <Grid item container direction='row' xs='10' className={classes.user} spacing={6}>  
                 <Grid item className={classes.profile} xs='8' >   
                     <div className='image-wrapper'>
                         <img className='profile-image' src={user.imgUrl} alt=""/>
@@ -104,15 +109,15 @@ class Findfollow extends React.Component{
                             @{user.username}
                     </Typography> 
 
-                    <Typography variant="body2">
+                    <Typography variant="body2" className="profile-details">
                             {user.bio}
                     </Typography> 
 
 
                 </Grid>
-                <Tooltip title='Follow User' placement="top">
-                    <IconButton onClick={() => this.followUser(user.id)}>
-                        <Add/>
+                <Tooltip title='Follow User' placement="top" className="profile-details">
+                    <IconButton onClick={() => this.followUser(user.id)} className="profile-details">
+                        <Add color="secondary"/>
                     </IconButton>
                 </Tooltip>
             </Grid>

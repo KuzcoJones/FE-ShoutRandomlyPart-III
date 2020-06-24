@@ -1,7 +1,6 @@
 import React from 'react'
 import Shout from './Shout'
 import withStyles from '@material-ui/core/styles/withStyles';
-import { CallMissedSharp } from '@material-ui/icons';
 
 const styles = theme => ({
     card: {height: '20vh'},

@@ -8,7 +8,7 @@ import ShoutFeed from './ShoutFeed'
 
 const styles = (theme) => ({
     container: { 
-         width:'100vw', height: '50vh', margin: '130px, 190px, 90px',
+         width:'100vw', height: '100vh', margin: '130px, 190px, 90px',
         position: 'relative',
         top: '20vh',
         backgroundColor: theme.palette.secondary.main,
@@ -20,6 +20,17 @@ const styles = (theme) => ({
     },
     home: {
         backgroundColor: theme.palette.secondary.main,
+    },
+    profile: {
+        height: '50vh',
+        position: 'relative',
+        top: '9vh'
+},
+
+    follow: {
+        position: 'relative',
+        bottom: '40vh',
+
     }
 
 })
@@ -50,16 +61,17 @@ class Home extends React.Component{
        
 
         return(
-           <Grid container spacing={16} className={classes.home} >
+           <Grid container spacing={12} className={classes.home} >
                 <Grid item sm={8} xs={12} className={classes.container}>
 
                     <ShoutFeed login={this.props.login} />
                 </Grid>
-                <Grid item sm={4} xs={12}>
-                    <Profile/>
+                <Grid item sm={4} xs={6} className={classes.profile}>
+                    <Profile />
                 </Grid> 
-                <Grid item sm={4} xs={12} container >
-                    <FindFollow setFollowings={this.setFollowings}/>
+                <Grid item sm={4} xs={6} container className={classes.follow}>
+                    {/* <h1>Find a Follower</h1> */}
+                    <FindFollow setFollowings={this.setFollowings} />
                 </Grid>
            </Grid>
         )

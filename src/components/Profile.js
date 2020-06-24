@@ -69,7 +69,6 @@ class Profile extends React.Component{
         const image = event.target.files[0]
         const formData = new FormData();
         formData.append('image', image, image.name)
-        // debugger
         const token = localStorage.getItem('token')
         const reqObj = {
             method: 'PATCH',
@@ -161,7 +160,6 @@ class Profile extends React.Component{
         return(
             <div>
                 {this.state.renderState === 'done' ? this.renderUserInfo() : this.loadingMessage()}
-               
             </div>
         )
     }

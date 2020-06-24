@@ -145,7 +145,7 @@ class Findfollow extends React.Component{
     render(){
         const { classes } = this.props
 
-        console.log("FindFollow state", this.state)
+        
         return(
             <div>
                 <Grid container direction='row' justify="space-evenly" className={classes.container} maxWidth="xs" xs='8' spacing={16} height="200px">

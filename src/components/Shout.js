@@ -7,7 +7,7 @@ import relativeTime from 'dayjs/plugin/relativeTime'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import IconButton from '@material-ui/core/IconButton'
-import { ThumbUp, ThumbDown, Comment, RemoveCircle } from '@material-ui/icons'
+import { ThumbUp, ThumbDown} from '@material-ui/icons'
 
 import Typography  from '@material-ui/core/Typography';
 import Grid  from '@material-ui/core/Grid';
@@ -26,8 +26,7 @@ const styles = (theme) => ({
         display: 'flex',
         height: '20vh' ,
         marginBottom: 20,
-        marginRight: 20,
-        marginLeft: 35,
+        maxWidth: 800,
         minWidth: 300
 
     },
@@ -49,7 +48,7 @@ const styles = (theme) => ({
     buttonBar: {
         position: 'relative',
         bottom: '6vh',
-        left: '20vw'
+        left: '15vw'
     },
     shoutInfo: {
         position: 'relative',
@@ -151,7 +150,7 @@ class Shout extends React.Component{
 
                     <div className={classes.userInfo}>
                         <Typography variant="body2" className={classes.text}>
-                             {dayjs(shout.created_at).fromNow()}
+                            {dayjs(shout.created_at).fromNow()}
                         </Typography>
                         <Typography variant="body1" className={classes.text}>
                             @{shout.user.username}
@@ -168,7 +167,7 @@ class Shout extends React.Component{
                             </Typography>
                         </div>
 
-                       
+                    
                     <Grid className = {classes.buttonBar}>
                         <IconButton className={classes.button} aria-label="like">
                             <ThumbUp onClick={() => this.likeShout(id)} />
@@ -180,7 +179,7 @@ class Shout extends React.Component{
                     
                     
                         <Fragment className={classes.text}>
-                            <PostComment className={classes.text} shoutId={shout.id} />
+                            <PostComment className={classes.text} shoutId={shout.id}/>
                         </Fragment>
                     </Grid>
 
@@ -196,7 +195,7 @@ class Shout extends React.Component{
         const { classes } = this.props
         return(
             <div className={classes.container}>
-               
+            
                 {/* this.state.renderState === 'done' ? this.renderUserInfo() : this.loadingMessage() */}
                 {this.state.rendered === true ? this.renderShout() : this.loadingMessage()}
             </div>

@@ -33,8 +33,6 @@ class NavBar extends React.Component{
             fetch('http://localhost:3000/myuser', reqObj)
             .then(resp => resp.json())
             .then(data => {
-                const { username, img, bio } = { ...this.state.profile }
-                // console.log( "myUser data", data)
                 this.setState({
                     shouts: data.shouts, comments: data.comments, rendered: true, username: data.username, img: data.imgUrl, bio: data.bio
                     })

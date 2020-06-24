@@ -99,9 +99,6 @@ class PostComment extends Component{
                             multiline
                             rows="3"
                             placeholder="Shout!"
-                            // error = {error.body ? true : false} 
-                            // helperText={error.body}
-                            
                             onChange= {this.handleChange}
                             fullWidth
                             />

@@ -1,7 +1,4 @@
 import React from 'react'
-import NavBar from './NavBar'
-import Findfollow from './Findfollow'
-import Shout from './Shout'
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent'
@@ -21,10 +18,13 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button'
 
-const styles = {
+const styles = (theme) => ({
     container: {
         position: 'relative',
-        top: 100
+        height: '100vh',
+        width: '100vw',
+        top: 100,
+        backgroundColor: theme.palette.secondary.light
     },
     card: {
         marginTop: 20,
@@ -55,7 +55,12 @@ const styles = {
         left: '2vw',
         bottom: '4vh'
     },
-}
+    background: {
+        backgroundColor: theme.palette.secondary.light,
+        height: '140vh',
+        width: '100vw'
+    }
+})
 
 
 // When updating the shouts or comments after the delete function update the app state.
@@ -101,8 +106,8 @@ class MyShouts extends React.Component{
 
     handleSubmit = () => {
         const token = localStorage.getItem('token')
-        const { shoutId, shoutBody } = this.state.shout
-        const {commentId, commentBody} = this.state.comment
+        const { shoutId } = this.state.shout
+        const {commentId} = this.state.comment
         console.log(commentId)
         const shoutObj = {
             method: 'PATCH',
@@ -207,20 +212,14 @@ class MyShouts extends React.Component{
 
 
 
-   
-
-    
-
-  
-
     renderShouts = () => {  
         const { classes } = this.props 
         const { shouts } = this.state           
         dayjs.extend(relativeTime)
         
 
-       if(this.state.shouts.length > 0 ) {
-           return shouts.map( shout => 
+    if(this.state.shouts.length > 0 ) {
+        return shouts.map( shout => 
                 <Card className={classes.card}> 
                     <CardContent className={classes.content}> 
                             <Typography variant="h5">
@@ -266,7 +265,6 @@ class MyShouts extends React.Component{
 
     renderComments = () => {
         const { classes } = this.props 
-        const { shouts } = this.state           
         dayjs.extend(relativeTime)
 
     if (this.state.comments.length > 0 ){  return this.state.comments.map( comment => 
@@ -300,7 +298,7 @@ class MyShouts extends React.Component{
         else {
             return(
                 <Card className={classes.card}>
-                     <Typography variant="h6" color="textSecondary" className={classes.username}>
+                    <Typography variant="h6" color="textSecondary" className={classes.username}>
                                 Create your first comment
                     </Typography>
                 </Card>
@@ -310,7 +308,6 @@ class MyShouts extends React.Component{
 
     renderFollowed = () => {
         const { classes } = this.props 
-        const { followed_users } = this.state    
         dayjs.extend(relativeTime)
         if (this.state.followed_users.length > 0 ){
 
@@ -323,11 +320,11 @@ class MyShouts extends React.Component{
                                         height= '100'
                                         src={user.imgUrl}
                                         title="User's profile images" 
-                                         />
+                                        />
                             </div>
                             <CardContent className={classes.usercontent}> 
     
-                                 <Typography variant="h6" color="textSecondary" className={classes.username}>
+                                <Typography variant="h6" color="textSecondary" className={classes.username}>
                                     {user.username}
                                 </Typography>
     
@@ -361,7 +358,7 @@ class MyShouts extends React.Component{
         const  {classes} = this.props
 
         return(
-            <Grid container >
+            <Grid container className={classes.background}>
                 
                <Grid item container direction= "row-reverse" spacing={4} className={classes.container}> 
 

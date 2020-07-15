@@ -128,6 +128,9 @@ class Findfollow extends React.Component{
                 <Typography variant='h1' color="secondary" className='profile-details'>
                     ...Loading
                 </Typography>
+                <div>
+                    Hello
+                </div>
             </Grid>
         </Grid>
         )

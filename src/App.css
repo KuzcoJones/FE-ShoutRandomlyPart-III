@@ -55,3 +55,28 @@ a{
   text-decoration: none,
 }
 
+ #title{
+ font-weight: 900;
+ position: relative;
+  right: 33% ;
+}
+
+#welcome{
+  position: relative;
+  right: 1% ;
+  font-style: oblique;
+  font-weight: 800;
+}
+
+#feed-title{
+  position: relative;
+  right: 10%;
+  font-weight: 700;
+}
+
+#follow{
+  position: relative;
+  left: 183%;
+  font-weight: 700;
+}
+

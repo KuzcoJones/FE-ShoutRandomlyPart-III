@@ -85,6 +85,15 @@ class Login extends React.Component {
 
         return (             
             <Container component="main" maxWidth="xs">
+              <Typography variant="h4" id="welcome">
+                Welcome to
+              </Typography>
+              <Typography variant="h1" component="h1" id="title">
+                ShoutRandomly
+              </Typography>
+              <Typography>
+                Where you can Shout Randomly and have all your friends see!
+              </Typography>
             <CssBaseline />
             <div className={classes.paper}>
               <Avatar className={classes.avatar}>

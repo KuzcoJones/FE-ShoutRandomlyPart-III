@@ -69,6 +69,7 @@ class PostShout extends Component{
             {  
                 this.setState({shouts: data})
                 this.props.setShouts(data)
+                window.location.reload();
                 }             
         )
         .catch(error => {
@@ -80,7 +81,6 @@ class PostShout extends Component{
             event.preventDefault()
             alert('Shout must not be blank')
             return false;
-
         }
         
     }

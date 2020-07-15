@@ -1,6 +1,7 @@
 import React from 'react'
 import Shout from './Shout'
 import withStyles from '@material-ui/core/styles/withStyles';
+import {Typography} from '@material-ui/core'
 
 const styles = theme => ({
     card: {height: '20vh'},
@@ -53,6 +54,9 @@ const styles = theme => ({
         '& a': {
             margin: '20px, 10px'
         }
+    },
+    loading: {
+        color: 'white',
     }
 })
 
@@ -93,7 +97,7 @@ class ShoutFeed extends React.Component{
             return  this.state.shouts.map( shout =>  <Shout shout={shout}/>)
         }
         else {
-            return <p>Please Follow Someone to see their shouts</p>
+            return <Typography variant="h2" color="primary">Please Follow Someone to see their shouts</Typography>
         }
        
     }  
@@ -102,8 +106,13 @@ class ShoutFeed extends React.Component{
     render(){
         const { classes } = this.props
         return(
-            <div className= {classes.container}>
-                {this.state.renderState === true ? this.renderShouts() : <p>Loading...</p>}  
+            <div>
+                <Typography variant="h3" id="feed-title">
+                    ShoutFeed
+                </Typography>
+                <div className= {classes.container}>
+                    {this.state.renderState === true ? this.renderShouts() : <h1 className={classes.loading}>Loading...</h1>}  
+                </div>
             </div>
         )
     }

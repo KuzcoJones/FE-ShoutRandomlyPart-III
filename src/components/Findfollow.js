@@ -8,8 +8,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
 import Add from '@material-ui/icons/AddCircle'
 
-// Send Updated List of Followers to Shoutfeed. 
-// Change data from fetch relationship create to include user.followed_shouts.
+
 
 const styles = theme => ({
     card: {height: '20vh', backgroundColor: theme.palette.primary.dark},
@@ -17,10 +16,9 @@ const styles = theme => ({
         border: '1px solid',
         height: '5vh',
         width: '100%',
-       backgroundColor: '#b71c1c',
+        backgroundColor: '#b71c1c',
     },
-    user:{border: 'solid 4px', margin: '40', padding: '40', backgroundColor: theme.palette.primary.dark
-},
+    user:{border: 'solid 4px', margin: '40', padding: '40', backgroundColor: theme.palette.primary.dark},
     container: {backgroundColor: theme.palette.secondary.dark, overflow: 'scroll', height: '35vh', border: 'solid 1px', position: 'relative', left: '200%', },
     profile: {
         color: theme.palette.primary.contrastText,
@@ -67,7 +65,7 @@ const styles = theme => ({
         '& a': {
             margin: '20px, 10px'
         }
-    }
+    },
 })
 
 class Findfollow extends React.Component{
@@ -112,8 +110,6 @@ class Findfollow extends React.Component{
                     <Typography variant="body2" className="profile-details">
                             {user.bio}
                     </Typography> 
-
-
                 </Grid>
                 <Tooltip title='Follow User' placement="top" className="profile-details">
                     <IconButton onClick={() => this.followUser(user.id)} className="profile-details">
@@ -121,8 +117,20 @@ class Findfollow extends React.Component{
                     </IconButton>
                 </Tooltip>
             </Grid>
-            
             )
+    }
+
+    renderLoading = () => {
+        const { classes } = this.props
+        return(
+        <Grid  item container direction='row' xs='10' className={classes.user} spacing={6}>
+            <Grid item className={classes.profile} xs='8'>
+                <Typography variant='h1' color="secondary" className='profile-details'>
+                    ...Loading
+                </Typography>
+            </Grid>
+        </Grid>
+        )
     }
 
     followUser = (userId) => {
@@ -138,8 +146,8 @@ class Findfollow extends React.Component{
                 this.setState({
                     ...this.state, non_followers: data
                 })
-
         })
+        window.location.reload();
     }
 
     render(){
@@ -147,9 +155,10 @@ class Findfollow extends React.Component{
 
         
         return(
-            <div>
+            <div >
+                <Typography variant="h4" id="follow">Shouters</Typography>
                 <Grid container direction='row' justify="space-evenly" className={classes.container} maxWidth="xs" xs='8' spacing={16} height="200px">
-                        {this.state.rendered === true ? this.renderUsers(): <p>...Loading</p>}
+                        {this.state.rendered === true ? this.renderUsers() : this.renderLoading()}
                 </Grid>
             </div>
         )
